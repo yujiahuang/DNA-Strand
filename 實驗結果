@@ -1,0 +1,76 @@
+# Algorithm of generating DNA strands
+
+Apply Simulated Annealing, to generate DNA strands under some objective. The followings are the definition of each parts:
+
+1. State
+DNA strands, consist of A, T, C and G.
+
+2. Move
+There are 3 kinds of moves:
+(1) Flip：flip the 5' and 3'
+(2) Switch：switch one of the nucleotides into another type
+(3) Shuffle：cut a strand into pieces of 3 nucleotides, and shuffle the positions of them.
+3. Cost (Energy)
+First define "similarity": if the nucleotides of the matching positions of 2 strands are the same, then plus similarity by 1.
+There are 3 kinds of costs. They are normalized and sumed up.
+(1) Simple Similarity: for each strand, the similarity of itself and all the other strands, excluding the complement of itself.
+(2) Slide Similarity: for each strand, the similarity of itself and all the other strands in different sliding positions, excluding the complement of itself. Here we remove the same position as (1). Also, the more overlapping, the more weight is applied.
+(3) Weighted Similarity：for each strand, the weighted similarity of itself and all the other strands, excluding the complement of itself. The weight exponential decays from the beginning end.
+
+These 3 costs are normalized into 0~100 based on the possible maximum, and are sumed up to be the total cost.
+
+# Settings of Experiment
+The one we experiment is the "Amplifier", which is provided on Nupack. There are 3 kinds of domains: a, b, and c, and 6 kinds of strands:
+hairpin1: a b c* b* 
+hairpin2: b* a* b c 
+initiator1: b* a*
+initiator2: c* b*
+detect1: b* a* a b c* b* 
+detect2: b* a* b c c* b*
+
+the hairpin will react with the corresponding initiator, and form a detect.
+
+We set the annealing conditions as follows:
+steps: 60000
+max temperature: 25000
+min temperature: 1.0
+
+
+
+# Result of Experiment
+
+1. Randomly-generated initial strands
+
+The randomly-generated DNA strands perform badly in Nupack. The reaction don't happen, or produce unexpected products. After Simulated Annealing, there are chances we get a better result. However, the probability is low. That is, although we could make the result better, there is a larger chance that no improvements occurs. In most of our experiments, we failed to improve the concentration of the expected product. Some successful ones performed badly on one of the expected product.
+
+2. Nupack-generated initial strands
+
+The simulation result of Nupack-generated DNA strands is as the following:
+
+
+If we apply Simulated Annealing onto these strands, the result is as the following:
+
+
+The result is actually worse.
+
+
+Discussion
+
+From the above experiments,  
+1. The method we chose may work, but the effect is not obvious. Experiment result 1 showed that although the improvement is possible, but the probability is not high. Chances are it is just a lucky result.
+2. There are 2 reasons for experiment result 2: Our method is worse, and Nupack self-verifies. That is, our method is probably not good, but the objectives of Nupack's design and analysis may be the same, making the reaction result better than reality. If we need to truely verify the effect, we should actually systhesize those strands.
+3. The reasons that our method is not good could be:
+(1) The cost is not considered carefully:
+The costs we choose is probably not the main factor. For example, if a DNA strand will self-generate a hairpin, then the reaction won't even happen. We did not make this into consideration. Besides, the 3 costs are normalized and sumed up, but whether this weight is good enough remains unknown.
+(2) Bad move definition:
+The 3 moves we defined might not perform well. Because the strands are short for this experiment, changes that are too violent could cause a big jump and miss the minimum.
+
+(1) might be the main reason. Without considering self-generated hairpin, the reaction will not happen, failing the whole experiment.
+
+Conclusions
+
+In this project, we tried to apply Simulated Annealing to generate DNA strands. However, due to defected cost and move definition, the result is not good. The most important one is that we did not consider the self-generated hairpin, making the strands too hard to react. In the furture, we will consider different costs, making the annealing process more reasonable, and hopefully generate a better result.
+
+
+
+
