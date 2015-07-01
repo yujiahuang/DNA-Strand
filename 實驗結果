@@ -20,6 +20,7 @@ There are 3 kinds of costs. They are normalized and sumed up.
 These 3 costs are normalized into 0~100 based on the possible maximum, and are sumed up to be the total cost.
 
 # Settings of Experiment
+
 The one we experiment is the "Amplifier", which is provided on Nupack. There are 3 kinds of domains: a, b, and c, and 6 kinds of strands:
 hairpin1: a b c* b* 
 hairpin2: b* a* b c 
@@ -30,10 +31,6 @@ detect2: b* a* b c c* b*
 
 the hairpin will react with the corresponding initiator, and form a detect.
 
-We set the annealing conditions as follows:
-steps: 60000
-max temperature: 25000
-min temperature: 1.0
 
 
 
@@ -41,7 +38,12 @@ min temperature: 1.0
 
 1. Randomly-generated initial strands
 
-The randomly-generated DNA strands perform badly in Nupack. The reaction don't happen, or produce unexpected products. After Simulated Annealing, there are chances we get a better result. However, the probability is low. That is, although we could make the result better, there is a larger chance that no improvements occurs. In most of our experiments, we failed to improve the concentration of the expected product. Some successful ones performed badly on one of the expected product.
+The randomly-generated DNA strands perform badly in Nupack. The reaction don't happen, or produce unexpected products. After Simulated Annealing, there are chances we get a better result. However, the probability is low. That is, although we could make the result slightly better, there is a larger chance that no improvements occurs, and the improvements mostly are not obvious enough. In most of our experiments, we failed to improve the concentration of the expected product. Some successful ones performed badly on one of the expected product.
+
+Here is one of the case:
+
+
+The Simulated Annealed result is just "slightly" better.
 
 2. Nupack-generated initial strands
 
@@ -69,7 +71,9 @@ The 3 moves we defined might not perform well. Because the strands are short for
 
 Conclusions
 
-In this project, we tried to apply Simulated Annealing to generate DNA strands. However, due to defected cost and move definition, the result is not good. The most important one is that we did not consider the self-generated hairpin, making the strands too hard to react. In the furture, we will consider different costs, making the annealing process more reasonable, and hopefully generate a better result.
+In this project, we tried to apply Simulated Annealing to generate DNA strands. However, due to defected cost and move definition, the result is not good. The most important one is that we did not consider the self-generated hairpin, making the strands too hard to react. 
+
+In the furture, we will consider different costs, making the annealing process more reasonable, and hopefully generate a better result. Another approach is to combine Nupack. We can take Nupack's analysis as one of the costs, or build a Simulated Annealing program with Nupack's design algorithm.
 
 
 
